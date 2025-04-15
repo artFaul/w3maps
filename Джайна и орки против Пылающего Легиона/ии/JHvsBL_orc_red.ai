@@ -1,0 +1,56 @@
+//=========================================================================
+// Jaina and Thrall vs Undead -- Orc (Red) -- AI Script -- OrcishHorde
+//=========================================================================
+
+ globals
+//    player enemyCamp                     = Player(3)
+    
+
+//    constant integer GLAIVE_THROWER       = 'e000'
+
+endglobals
+
+//=========================================================================
+// main
+//=========================================================================
+
+function main takes nothing returns nothing
+
+    call CampaignAI(BURROW, null)
+    call SetReplacements( 3, 3, 1)
+    
+    call SetSlowChopping(false)
+    call SetPeonsRepair(true)
+    
+    set campaign_wood_peons = 4
+    
+    call SetBuildUnit( 1, PEON          )
+    call SetBuildUnit( 1, FORTRESS      )
+    call SetBuildUnit( 1, ORC_BARRACKS  )
+    call SetBuildUnit( 2, PEON          )
+    call SetBuildUnit( 1, FORGE         )
+    call SetBuildUnit( 3, PEON          )
+    call SetBuildUnit( 1, ORC_ALTAR     )
+    call SetBuildUnit( 1, BESTIARY      )
+    call SetBuildUnit( 1, LODGE         )
+    call SetBuildUnit( 1, TOTEM         )
+    call SetBuildUnit( 8, PEON          )
+
+    call CampaignDefenderEx( 1,1,1, THRALL          )
+    call CampaignDefenderEx( 1,1,0, GRUNT           )
+	call CampaignDefenderEx( 0,0,1, TAUREN          )
+    call CampaignDefenderEx( 1,1,1, HEAD_HUNTER     )
+    call CampaignDefenderEx( 1,1,1, WITCH_DOCTOR    )
+    call CampaignDefenderEx( 1,1,1, SHAMAN          )
+    
+//    call WaitForSignal()
+    
+    // *** WAVES ***
+    
+    //*** WAVE 1 ***
+//    call InitAssaultGroup()
+//    call CampaignAttackerEx( 4,4,6, FOOTMEN      )
+//    call SuicideOnPlayerEx(M7,M7,M5,enemyCamp)
+    
+    
+endfunction

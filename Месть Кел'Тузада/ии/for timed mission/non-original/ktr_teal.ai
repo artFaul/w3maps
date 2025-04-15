@@ -1,0 +1,44 @@
+//=========================================================================
+// Kel'Thuzad's Revenge 01 -- Sentinels -- AI Script
+//=========================================================================
+
+
+//=========================================================================
+// MAIN
+//=========================================================================
+function main takes nothing returns nothing
+
+    call CampaignAI(MOON_WELL, null)
+    call SetReplacements( 1, 1, 2)
+    
+    call SetSlowChopping(false)
+    call SetPeonsRepair(true)
+    call SetUnitsFlee(true)
+    set campaign_wood_peons = 6
+    
+    call SetBuildUnit( 1, WISP               )
+    call SetBuildUnit( 1, TREE_LIFE          )
+    call SetBuildUnit( 2, WISP               )
+    call SetBuildUnit( 1, ANCIENT_WAR        )
+    call SetBuildUnit( 1, HUNTERS_HALL       )
+    call SetBuildUnit( 1, TREE_AGES          )
+    call SetBuildUnit( 3, WISP               )
+    call SetBuildUnit( 1, ANCIENT_LORE       )
+    call SetBuildUnit( 1, ANCIENT_WIND       )
+    call SetBuildUnit( 11, WISP               )
+    
+    call CampaignDefenderEx( 1,1,1, SHANDRIS     )
+    call CampaignDefenderEx( 1,1,1, HUNTRESS	 )
+    call CampaignDefenderEx( 1,1,1, ARCHER    	 )
+    call CampaignDefenderEx( 1,1,0, DRUID_CLAW	 )
+    
+    call SetBuildUpgrEx( 2,2,1, UPG_STR_MOON     ) 
+    call SetBuildUpgrEx( 2,2,1, UPG_STR_WILD     )
+    call SetBuildUpgrEx( 2,2,1, UPG_MOON_ARMOR   )
+    call SetBuildUpgrEx( 1,1,0, UPG_BLESSING     )         //make trees stronger
+    call SetBuildUpgrEx( 2,2,1, UPG_HIDES        )
+    call SetBuildUpgrEx( 1,1,1, UPG_BOWS         )
+    
+    call SleepForever()
+        
+endfunction

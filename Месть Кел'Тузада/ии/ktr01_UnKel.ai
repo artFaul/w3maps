@@ -1,0 +1,73 @@
+//=========================================================================
+// Kel'Thuzad's Revenge -- Kel'Thuzad (Green) -- AI Script
+//=========================================================================
+
+ globals
+    player Jai                     = Player(9)
+    player user                    = Player(0)
+    
+    constant integer KelThuzad     = 'Uktl'
+endglobals
+
+//=========================================================================
+// main
+//=========================================================================
+function main takes nothing returns nothing
+
+    call CampaignAI(ZIGGURAT_1, null)
+    call SetReplacements( 3, 3, 3)
+    
+    call SetPeonsRepair(true)
+    set campaign_wood_peons = 4
+    
+    call SetBuildUnit( 1, ACOLYTE                   )
+    call SetBuildUnit( 1, NECROPOLIS_1              )
+    call SetBuildUnit( 1, UNDEAD_MINE               )
+    call SetBuildUnit( 1, CRYPT                     )
+    call SetBuildUnit( 1, GRAVEYARD                 )
+    call SetBuildUnit( 1, UNDEAD_ALTAR              )
+    call SetBuildUnit( 1, NECROPOLIS_2              )
+    call SetBuildUnit( 1, DAMNED_TEMPLE             )
+    call SetBuildUnit( 1, SLAUGHTERHOUSE            )
+    call SetBuildUnit( 1, BONEYARD                  )
+    call SetBuildUnit( 5, ACOLYTE                   )
+    
+    call CampaignDefenderEx( 0,0,1, ABOMINATION   )
+    call CampaignDefenderEx( 1,1,1, CRYPT_FIEND   )
+    call CampaignDefenderEx( 1,1,1, NECRO         )
+    call CampaignDefenderEx( 0,0,1, KelThuzad     )       
+    call WaitForSignal()
+    
+    
+    // *** WAVE 1 (JAINA) ***
+    call InitAssaultGroup()
+    call CampaignAttackerEx( 5,5,7, GHOUL         )
+    call SuicideOnPlayer(M2,Jai)
+    
+    // *** Wave 2 (JAINA) ***
+    call InitAssaultGroup()
+    call CampaignAttackerEx( 5,5,6, GHOUL         )
+    call CampaignAttackerEx( 3,3,4, CRYPT_FIEND   )
+    call SuicideOnPlayerEx(M5,M5,M3,user)
+    
+    // *** Wave 3 (THRALL) ***
+    call InitAssaultGroup()
+    call CampaignAttackerEx( 4,4,6, GHOUL         )
+    call CampaignAttackerEx( 1,1,2, CRYPT_FIEND   )
+    call CampaignAttackerEx( 1,1,2, NECRO         )
+    call SuicideOnPlayerEx(M5,M5,M3,Jai)
+    
+    call SetBuildUpgrEx( 0,0,1, UPG_CANNIBALIZE   )
+    call SetBuildUpgrEx( 1,1,1, UPG_SKEL_LIFE     )
+    call SetBuildUpgrEx( 1,1,1, UPG_UNHOLY_ARMOR  )
+	call SetBuildUpgrEx( 1,1,1, UPG_NECROS        )
+	
+	// *** Wave 4 (JAINA) ***
+    call InitAssaultGroup()
+    call CampaignAttackerEx( 4,4,6, NECRO         )
+    call CampaignAttackerEx( 1,1,2, MEAT_WAGON    )
+    call SuicideOnPlayerEx(M5,M5,M3,Jai)
+    
+//    call SetBuildUpgrEx( 1,1,1, UPG_BANSHEE       )
+        
+endfunction

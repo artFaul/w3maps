@@ -1,0 +1,126 @@
+//=========================================================================
+// Begone, Traitors! -- Human(Yellow) -- AI Script
+//=========================================================================
+
+ globals
+    player user                     = Player(9)
+    
+
+    constant integer GLAIVE_THROWER       = 'e000'
+    
+    constant integer NO_CLOUD_HAWK  = 'h00c'
+    constant integer CLOUD_HAWK     = HUMAN_DRAGON_HAWK
+    
+    
+    // Sylvanus here is not actually Sylvanus
+                                                 
+//      constant integer HIGH_ARCHER        = 'nhea'
+//      constant integer HIGH_FOOTMAN       = 'hcth'
+
+endglobals
+
+//=========================================================================
+// main
+//=========================================================================
+function main takes nothing returns nothing
+
+    call CampaignAI(HOUSE, null)
+    call SetReplacements( 1, 1, 3)
+    
+    call SetSlowChopping(true)
+    call SetPeonsRepair(false)
+    
+    set campaign_wood_peons = 3
+    
+    call SetBuildUnit( 1,  BLOOD_PEASANT              )
+    call SetBuildUnit( 1,  TOWN_HALL                  )
+    call SetBuildUnit( 2,  BLOOD_PEASANT              )
+    call SetBuildUnit( 1,  BARRACKS                   )
+    call SetBuildUnit( 1,  HUMAN_ALTAR                )                                                 
+    call SetBuildUnit( 1,  LUMBER_MILL                )
+    call SetBuildUnit( 1,  ARCANE_VAULT               )
+    call SetBuildUnit( 1,  BLACKSMITH                 )
+    call SetBuildUnit( 1,  KEEP                       )
+    call SetBuildUnit( 1,  SANCTUM                    )
+    call SetBuildUnit( 1,  AVIARY                     )
+    call SetBuildUnit( 1,  CASTLE                     )
+    call SetBuildUnit( 8,  BLOOD_PEASANT              )
+    
+    call CampaignDefenderEx( 0,0,1, SYLVANUS          )
+    call CampaignDefenderEx( 1,1,0, SPELL_BREAKER     )
+    call CampaignDefenderEx( 0,0,1, HUMAN_DRAGON_HAWK )
+    call CampaignDefenderEx( 1,1,0, HIGH_SWORDMAN     )
+    call CampaignDefenderEx( 1,1,1, PRIEST            )
+    call CampaignDefenderEx( 0,0,1, SORCERESS         )
+    
+    call WaitForSignal()
+    
+    // if HARD, archers become more valuable attackers with Hero (cause of trueshot aura)
+    
+    // *** WAVES ***
+    
+    //*** WAVE 1 ***
+    call InitAssaultGroup()
+    call CampaignAttackerEx( 4,4,6, HIGH_SWORDMAN      )
+    call CampaignAttackerEx( 3,3,5, HIGH_ARCHER        )
+    call CampaignAttackerEx( 0,0,1, GLAIVE_THROWER     )
+    call SuicideOnPlayerEx(M8,M8,M6,user)
+        
+    call SetBuildUpgrEx( 0,0,1, UPG_SORCERY           )
+    call SetBuildUpgrEx( 0,0,1, UPG_PRAYING           )
+    call SetBuildUpgrEx( 1,1,1, UPG_MELEE             )
+    call SetBuildUpgrEx( 1,1,1, UPG_ARMOR             )
+    call SetBuildUpgrEx( 1,1,1, UPG_STR_MOON          )
+    call SetBuildUpgrEx( 1,1,1, UPG_LEATHER           )
+
+    //*** WAVE 2 ***
+    call InitAssaultGroup()
+    call CampaignAttackerEx( 3,3,5, HIGH_SWORDMAN      )
+    call CampaignAttackerEx( 2,2,4, SPELL_BREAKER      )
+    call CampaignAttackerEx( 4,4,6, HIGH_ARCHER        )
+    call CampaignAttackerEx( 1,1,2, GLAIVE_THROWER     )
+    call SuicideOnPlayerEx(M8,M8,M6,user) 
+    
+    call SetBuildUpgrEx( 1,1,2, UPG_MELEE             )
+    call SetBuildUpgrEx( 1,1,2, UPG_ARMOR             )
+    call SetBuildUpgrEx( 1,1,2, UPG_STR_MOON          )
+    call SetBuildUpgrEx( 1,1,2, UPG_LEATHER           )
+    call SetBuildUpgrEx( 1,1,1, UPG_SORCERY           )
+    call SetBuildUpgrEx( 1,1,1, UPG_PRAYING           )
+    call SetBuildUpgrEx( 1,1,1, UPG_GLAIVE            )
+    call SetBuildUpgrEx( 0,0,1, UPG_BOWS              )
+    call SetBuildUpgrEx( 0,0,1, UPG_CLOUD             )
+    call SetBuildUpgrEx( 0,0,2, UPG_MASONRY           )            
+        
+    loop    
+        call InitAssaultGroup()
+        call CampaignAttackerEx( 2,2,4, HIGH_SWORDMAN      )
+        call CampaignAttackerEx( 3,3,5, SPELL_BREAKER      )
+        call CampaignAttackerEx( 1,1,2, PRIEST             )
+        call CampaignAttackerEx( 0,0,1, SORCERESS          )
+        call CampaignAttackerEx( 1,1,1, SYLVANUS           )
+        call CampaignAttackerEx( 1,1,2, GLAIVE_THROWER     )
+        call SuicideOnPlayerEx(M9,M9,M6,user)
+        
+        call InitAssaultGroup()
+        call CampaignAttackerEx( 3,3,4, NO_CLOUD_HAWK      )
+        call CampaignAttackerEx( 1,1,2, CLOUD_HAWK         )
+        call SuicideOnPlayerEx(M7,M7,M5,user)
+        
+        call InitAssaultGroup()
+        call CampaignAttackerEx( 2,2,4, SORCERESS          )
+        call CampaignAttackerEx( 4,4,8, HIGH_ARCHER        )
+        call CampaignAttackerEx( 1,1,3, GLAIVE_THROWER     )
+        call SuicideOnPlayerEx(M6,M6,M4,user)
+        
+        call InitAssaultGroup()
+        call CampaignAttackerEx( 1,1,3, SPELL_BREAKER      )
+        call CampaignAttackerEx( 3,3,5, HIGH_ARCHER        )
+        call CampaignAttackerEx( 1,1,2, PRIEST             )
+        call CampaignAttackerEx( 1,1,2, SORCERESS          )
+        call CampaignAttackerEx( 1,1,1, SYLVANUS           )
+        call CampaignAttackerEx( 2,2,3, GLAIVE_THROWER     )
+        call SuicideOnPlayerEx(M9,M9,M6,user)
+    endloop
+        
+endfunction

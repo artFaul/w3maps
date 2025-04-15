@@ -1,0 +1,111 @@
+// NIGHT ELF teal AI SCRIPT
+globals
+    player targ = Player(1) 
+endglobals
+// main:
+
+function main takes nothing returns nothing
+
+call CampaignAI(MOON_WELL, null)
+
+// call SetPeonsRepair(true)
+call SetSlowChopping(true)
+
+// call SetReplacements(0,0,0)
+
+set campaign_wood_peons = 8
+
+call SetBuildUnit( 1, WISP              )
+call SetBuildUnit( 1, TREE_LIFE         )
+call SetBuildUnit( 2, WISP              )
+call SetBuildUnit( 1, ANCIENT_WAR       )
+call SetBuildUnit( 1, ELF_ALTAR         )
+call SetBuildUnit( 1, TREE_AGES         )
+call SetBuildUnit( 2, WISP              )
+call SetBuildUnit( 1, ANCIENT_LORE      )
+call SetBuildUnit( 1, ANCIENT_WIND      )
+call SetBuildUnit( 1, HUNTERS_HALL      )
+call SetBuildUnit( 13, WISP              )
+
+
+call CampaignDefenderEx( 1, 1, 1, MOON_CHICK        )
+call CampaignDefenderEx( 1, 1, 1, HUNTRESS          )
+call CampaignDefenderEx( 1, 1, 1, ARCHER            )
+call CampaignDefenderEx( 1, 1, 1, DRYAD             )
+call CampaignDefenderEx( 1, 1, 1, DRUID_CLAW        )
+
+
+// call SetBuildUpgr( 2, UPG_STR_MOON                  )
+// call SetBuildUpgr( 2, UPG_STR_WILD                  )
+// call SetBuildUpgr( 2, UPG_MOON_ARMOR                )
+// call SetBuildUpgr( 2, UPG_HIDES                     )
+// call SetBuildUpgr( 1, UPG_BLESSING                  )
+// call SetBuildUpgr( 1, UPG_BOWS                      )
+// call SetBuildUpgr( 1, UPG_GLAIVE                    )
+// call SetBuildUpgr( 1, UPG_MARK_CLAW                 )
+// call SetBuildUpgr( 1, UPG_ABOLISH                   )
+
+// tier 2 upgr if hard dif
+call SetBuildUpgrEx( 1,1,2, UPG_STR_MOON               )
+call SetBuildUpgrEx( 1,1,2, UPG_STR_WILD               )
+call SetBuildUpgrEx( 1,1,2, UPG_MOON_ARMOR             )
+call SetBuildUpgrEx( 1,1,2, UPG_HIDES                  )
+
+call WaitForSignal()
+
+// attacks
+
+// ==== WAVE 1 ===
+call InitAssaultGroup()
+call CampaignAttackerEx( 2,2,5, ARCHER          )
+call SuicideOnPlayerEx(M2,M2,M1,targ)
+                        
+// ==== WAVE 2 ===
+call InitAssaultGroup()
+call CampaignAttackerEx( 1,1,2, HUNTRESS        )
+call CampaignAttackerEx( 2,2,4, ARCHER          )
+call SuicideOnPlayerEx(M3,M3,90,targ)       // 90 is more than M1 (+30 sec)
+ 
+// ==== WAVE 3 ===
+call InitAssaultGroup()
+call CampaignAttackerEx( 2,2,4, HUNTRESS        )
+call CampaignAttackerEx( 0,0,1, BALLISTA        )
+call SuicideOnPlayerEx(M3,M3,100,targ)
+
+// ==== WAVE 4 ===
+call CampaignAttackerEx( 4,4,8, ARCHER          ) 
+call SuicideOnPlayerEx(M3,M3,100,targ)
+
+// ==== WAVE 4 ===
+call CampaignAttackerEx( 1,1,2, DRUID_CLAW      )
+call CampaignAttackerEx( 3,3,5, HUNTRESS        )
+call SuicideOnPlayerEx(M3,M3,110,targ)
+
+// ==== WAVE + ===
+loop
+    call InitAssaultGroup()
+    call CampaignAttackerEx( 4,4,6, HUNTRESS     )
+    call CampaignAttackerEx( 1,1,2, BALLISTA     )
+    call SuicideOnPlayerEx(M3,M3,M2,targ)
+    
+    call InitAssaultGroup()
+    call CampaignAttackerEx( 3,3,4, HUNTRESS     )
+    call CampaignAttackerEx( 1,1,2, DRUID_CLAW   )
+    call CampaignAttackerEx( 1,1,2, DRYAD        )
+    call SuicideOnPlayerEx(M3,M3,M2,targ)
+    
+    call InitAssaultGroup()
+    call CampaignAttackerEx( 3,6,6, DRUID_TALON  )
+    call CampaignAttackerEx( 1,1,4, BALLISTA     )
+    call SuicideOnPlayerEx(M3,M3,M2,targ)
+    
+    call InitAssaultGroup()
+    call CampaignAttackerEx( 1,1,1, MOON_CHICK   )
+    call CampaignAttackerEx( 2,2,4, ARCHER       )
+    call CampaignAttackerEx( 0,0,1, DRUID_CLAW   )
+    call CampaignAttackerEx( 1,1,2, DRYAD        )     
+    call CampaignAttackerEx( 1,1,2, BALLISTA     )
+    call SuicideOnPlayerEx(M4,M4,M3,targ)
+endloop
+    
+endfunction 

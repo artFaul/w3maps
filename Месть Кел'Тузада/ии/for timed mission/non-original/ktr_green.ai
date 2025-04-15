@@ -1,0 +1,118 @@
+//=========================================================================
+// Kel'Thuzad's Revenge -- Kel'Thuzad (Green) -- AI Script
+//=========================================================================
+
+ globals
+    player Jai                     = Player(9)
+    player user                    = Player(0) // main
+    
+    constant integer KEL_THUZAD     = 'Uktl'
+endglobals
+        //  ������ 3 ������ ���������� �����
+        // ���������� ������� ������
+
+
+// mostly attacks user
+
+//=========================================================================
+// main
+//=========================================================================
+function main takes nothing returns nothing
+
+    call CampaignAI(ZIGGURAT_1, null)
+    
+    call SetPeonsRepair(true)
+    call SetSlowChopping(false)
+                  
+    set campaign_wood_peons = 0
+
+    call SetBuildUnit( 1, ACOLYTE                   )
+    call SetBuildUnit( 1, NECROPOLIS_1              )
+    call SetBuildUnit( 1, UNDEAD_MINE               )
+    call SetBuildUnit( 2, CRYPT                     )
+    call SetBuildUnit( 1, GRAVEYARD                 )
+    call SetBuildUnit( 1, UNDEAD_ALTAR              )
+    call SetBuildUnit( 5, ACOLYTE                   )
+    call SetBuildUnit( 1, NECROPOLIS_2              )
+    call SetBuildUnit( 2, DAMNED_TEMPLE             )
+    call SetBuildUnit( 1, SLAUGHTERHOUSE            )
+    call SetBuildUnit( 1, BONEYARD                  )
+    call SetBuildUnit( 2, ZIGGURAT_1                )
+    call SetBuildUnit( 2, ZIGGURAT_2                )
+    
+    call CampaignDefenderEx( 2,2,2, ABOMINATION           )
+    call CampaignDefenderEx( 2,2,2, NECRO                 )
+    call CampaignDefenderEx( 1,1,1, MEAT_WAGON            )
+    call CampaignDefenderEx( 1,1,1, KEL_THUZAD            )
+    
+    call WaitForSignal()
+    
+    set allow_signal_abort = true
+    
+    // *** WAVE 1 passed 4mins***
+    call InitAssaultGroup()
+    call CampaignAttackerEx( 5,5,0, GHOUL           )
+    call CampaignAttackerEx( 0,0,4, ABOMINATION     )
+    call SuicideOnPlayer(M2,user)
+    
+    // *** WAVE 2 passed 7mins *** // attacks Jaina
+    call CampaignAttackerEx( 4,4,6, GHOUL           )
+    call CampaignAttackerEx( 1,1,4, NECRO           )
+    call CampaignAttackerEx( 0,0,1, MEAT_WAGON      ) // 1st time wagon HARD
+    call SuicideOnPlayer(M3,Jai)
+    
+    // *** WAVE 3 passed 10mins ***
+    call InitAssaultGroup()
+     call InitAssaultGroup()
+    call CampaignAttackerEx( 3,3,6, GHOUL           )
+    call CampaignAttackerEx( 1,1,2, ABOMINATION     )
+    call SuicideOnPlayer(M3,user)
+    
+    // *** WAVE 4 passed 13mins ***
+    call InitAssaultGroup()
+    call CampaignAttackerEx( 3,3,6, CRYPT_FIEND     )
+    call CampaignAttackerEx( 1,1,2, MEAT_WAGON      ) // 1st wagon NORMAL // 1st 2 wagons HARD
+    call SuicideOnPlayer(M3,user)
+     
+    // *** WAVE 5 passed 16mins *** // FIRST FLIGHT ATTACK
+    call InitAssaultGroup()
+    call CampaignAttackerEx( 4,4,7, GARGOYLE        )
+    call CampaignAttackerEx( 0,0,1, FROST_WYRM      )
+    call CampaignAttackerEx( 0,0,1, BLK_SPHINX      ) // doesn't build one :(
+    call SuicideOnPlayer(M3,user)
+    
+    call SetBuildUpgrEx( 1,1,1, UPG_PLAGUE          ) // plague now
+    
+    // *** WAVE 6 passed 19mins ***
+    call InitAssaultGroup()
+    // call CampaignAttackerEx( 3,3,0, CRYPT_FIEND     )
+    call CampaignAttackerEx( 4,4,6, GHOUL           )
+    call CampaignAttackerEx( 1,1,2, ABOMINATION     )
+    call CampaignAttackerEx( 2,2,4, NECRO           )
+    call CampaignAttackerEx( 1,1,2, MEAT_WAGON      )
+    call CampaignAttackerEx( 1,1,1, KEL_THUZAD      )
+    call SuicideOnPlayer(M3,Jai)
+    
+    // *** WAVE 7 passed 22mins ***
+    call InitAssaultGroup() // NO NECRO FOR KEL_THUZAD?
+    call CampaignAttackerEx( 5,5,7, GHOUL           )
+    call CampaignAttackerEx( 0,0,3, CRYPT_FIEND     )
+    call CampaignAttackerEx( 1,1,2, MEAT_WAGON      )
+    call CampaignAttackerEx( 1,1,1, KEL_THUZAD      )
+    call SuicideOnPlayer(M3,user)         // kel_thuzad attacks user now
+    
+    // *** WAVE 8 passed 25mins *** // SECOND FLIGHT ATTACK
+    call InitAssaultGroup()
+    call CampaignAttackerEx( 5,5,8, GARGOYLE        )
+    call CampaignAttackerEx( 1,1,2, FROST_WYRM      )
+    call CampaignAttackerEx( 0,0,2, BLK_SPHINX      )
+    call SuicideOnPlayer(M3,user)
+    
+    // FINAL WAVE
+    call ForeverSuicideOnPlayer(M2,user)
+
+    call SuicideUnits( MEAT_WAGON, ABOMINATION, GHOUL, NECRO, KEL_THUZAD, GARGOYLE, FROST_WYRM, CRYPT_FIEND, 0, 0 )
+
+    // 90 - 1 min left
+    // 60 - 1,5 min left (?)
+endfunction

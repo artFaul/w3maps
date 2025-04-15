@@ -1,0 +1,105 @@
+//=========================================================================
+// Kel'Thuzad's Revenge -- DEMONS -- AI Script
+//=========================================================================
+
+globals
+
+    player user                                 =   Player(0)
+    player elf                                  =   Player(2)
+    player Jai                                  =   Player(9)
+    
+    constant integer DEMON_CRYPT  = 'u000'
+endglobals
+            // ������ 3-5 ����� ���������� �����
+//=========================================================================
+// MAIN
+//=========================================================================
+function main takes nothing returns nothing
+
+    call CampaignAI(ZIGGURAT_1, null)
+    call SetReplacements(1,1,2)
+    
+    call SetPeonsRepair(true)
+//    call SetSlowChopping(false)
+    
+    call SetBuildUnitEx( 1,1,1, ACOLYTE             )
+    call SetBuildUnitEx( 1,1,1, NECROPOLIS_1        )
+    call SetBuildUnitEx( 1,1,1, UNDEAD_MINE         )
+    call SetBuildUnitEx( 2,2,2, DEMON_CRYPT         )
+    call SetBuildUnitEx( 1,1,1, GRAVEYARD           )
+    call SetBuildUnitEx( 1,1,1, NECROPOLIS_2        )
+    call SetBuildUnitEx( 1,1,1, NECROPOLIS_2        )
+    call SetBuildUnitEx( 5,5,5, ACOLYTE             )
+    
+    call CampaignDefenderEx( 0,0,1, DOOMGUARD     )
+    call CampaignDefenderEx( 1,1,1, FELLHOUND     )
+    // call CampaignDefenderEx( 1,1,1, INFERNAL      )
+    call WaitForSignal()
+    
+    set allow_signal_abort = true
+    
+    // *** WAVE 1 passed 0min ***
+    call InitAssaultGroup()
+    call CampaignAttackerEx( 1,1,2, FELLHOUND     )
+    call SuicideOnPlayer(M1,elf)
+    
+    // *** WAVE 2 passed 4mins ***
+    call InitAssaultGroup()
+    call CampaignAttackerEx( 1,1,3, FELLHOUND     )
+    call CampaignAttackerEx( 1,1,0, GHOUL         )
+    call SuicideOnPlayer(M4,Jai)
+    
+    // *** WAVE 3 passed 8mins ***
+    call InitAssaultGroup()
+    call CampaignAttackerEx( 1,1,0, DOOMGUARD     )
+    call SuicideOnPlayer(M4,user)
+
+    call SetBuildUnitEx( 1,1,4, ZIGGURAT_2        )
+    
+    // *** WAVE 4 passed 12mins***
+    call InitAssaultGroup()
+    call CampaignAttackerEx( 1,1,1, INFERNAL      )
+    call CampaignAttackerEx( 0,0,4, GHOUL         )
+    call SuicideOnPlayer(M4,Jai)
+
+    // Base is still not destroyed? Then let's unleash the true power of demons... on HARD mode of course
+    call SetBuildUnitEx( 3,3,4, ZIGGURAT_2        )
+
+    // *** WAVE 5 passed 16mins***
+    call InitAssaultGroup()
+    call CampaignAttackerEx( 1,1,1, DOOMGUARD     )
+    call CampaignAttackerEx( 0,0,2, FELLHOUND     )
+    call CampaignAttackerEx( 0,0,1, INFERNAL      )
+    call SuicideOnPlayer(M4,elf)
+    
+    // *** WAVE 6 passed 20minutes***
+    call InitAssaultGroup()
+    call CampaignAttackerEx( 1,1,3, DOOMGUARD     )
+    call CampaignAttackerEx( 0,0,4, GHOUL         )
+    call SuicideOnPlayer(M4,user)
+
+    // *** WAVE 7 passed 24mins***
+    call InitAssaultGroup()
+    call CampaignAttackerEx( 1,1,5, FELLHOUND     )
+    call CampaignAttackerEx( 1,1,0, INFERNAL      )
+    call CampaignAttackerEx( 0,0,1, DOOMGUARD     )
+    call SuicideOnPlayer(M4,Jai)
+    
+    // *** WAVE 8 passed 27mins***
+    call InitAssaultGroup()
+    call CampaignAttackerEx( 1,1,4, FELLHOUND     )
+    call CampaignAttackerEx( 1,1,1, INFERNAL      )
+    call CampaignAttackerEx( 1,1,0, DOOMGUARD     )
+    call CampaignAttackerEx( 0,0,2, GHOUL         )
+    call SuicideOnPlayer(M3,user)
+    
+    // *** WAVE 9 passed 30 mins***
+    call InitAssaultGroup()
+    call CampaignAttackerEx( 3,3,5, GHOUL         )
+    call CampaignAttackerEx( 1,1,2, INFERNAL      )
+    call CampaignAttackerEx( 1,1,1, DOOMGUARD     )
+    call SuicideOnPlayer(M3,elf)
+
+    call SuicideUnits( FELLHOUND, DOOMGUARD, 0, 0, 0, 0, 0, 0, 0, 0 )
+
+endfunction

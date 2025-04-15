@@ -1,0 +1,64 @@
+//=========================================================================
+// Kel'Thuzad's Revenge -- DEMONS -- AI Script
+//=========================================================================
+
+globals
+
+    player user                                 =   Player(0)
+    player elf                                  =   Player(2)
+    player Jai                                  =   Player(9)
+    
+    constant integer DEMON_CRYPT          =   'u000'
+endglobals
+
+//=========================================================================
+// MAIN
+//=========================================================================
+function main takes nothing returns nothing
+
+    call CampaignAI(ZIGGURAT_1, null)
+    set campaign_wood_peons = 2
+    call SetReplacements( 1, 1, 3)
+    
+    call SetPeonsRepair(true)
+    
+    call SetBuildUnit( 1, ACOLYTE                   )
+    call SetBuildUnit( 1, NECROPOLIS_1              )
+    call SetBuildUnit( 1, UNDEAD_MINE               )
+    call SetBuildUnit( 2, DEMON_CRYPT               )
+    call SetBuildUnit( 1, GRAVEYARD                 )
+    call SetBuildUnit( 1, UNDEAD_ALTAR              )
+    call SetBuildUnit( 1, NECROPOLIS_2              )
+    call SetBuildUnit( 5, ZIGGURAT_1                )
+    call SetBuildUnit( 3, ZIGGURAT_2                )
+    call SetBuildUnit( 1, NECROPOLIS_3              )
+    call SetBuildUnit( 5, ACOLYTE                   )
+    
+    call CampaignDefenderEx( 1, 1, 1, DOOMGUARD   )
+    call CampaignDefenderEx( 1, 1, 1, FELLHOUND   )
+    
+    set campaign_wood_peons = 4
+    
+    call WaitForSignal()
+    
+    // *** WAVE 1 (NIGHT ELVES) ***
+    call InitAssaultGroup()
+    call CampaignAttackerEx( 2,2,3, FELLHOUND    )
+    call SuicideOnPlayer(M2,elf)
+    
+    // *** WAVE 2 (NIGHT ELVES) ***
+    call InitAssaultGroup()
+    call CampaignAttackerEx( 3,3,0, FELLHOUND    )
+    call CampaignDefenderEx( 0,0,1, DOOMGUARD   )
+    call SuicideOnPlayerEx(M4,M4,M3,elf)
+    
+    // *** WAVE 3 (JAINA)
+    call InitAssaultGroup()
+    call CampaignAttackerEx( 1,1,1, INFERNAL     )
+    call CampaignAttackerEx( 0,0,2, FELLHOUND    )
+    call CampaignAttackerEx( 3,3,0, GHOUL        )   
+    call SuicideOnPlayerEx(M5,M5,M3,Jai)
+    
+    
+    
+endfunction

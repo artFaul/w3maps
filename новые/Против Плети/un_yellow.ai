@@ -1,0 +1,140 @@
+//=========================================================================
+// VS Undead Scourge -- Yellow Undead -- AI Script
+//=========================================================================
+
+globals
+
+    player user                    = Player(1)
+    constant integer CURSED_JAINA     = 'H000'
+    constant integer POSESS_BANSHEE   = 'u001'
+    constant integer AURA_BANSHEE     = 'u002'
+    constant integer CURSE_BANSHEE    = 'u000'
+
+    constant integer target = 0
+
+    integer stage_x1                    = 0
+    integer stage_y1                    = 0
+endglobals
+
+// data storage (for data)
+// coming soon
+
+//============================================================================
+// suicide_unit
+//============================================================================
+function suicide_unit takes integer unitid returns nothing
+    call SuicideUnitEx(1,unitid,target)
+    call SuicideUnitEx(1,SKEL_WARRIOR,target)
+    call Sleep(0.1)
+endfunction
+
+//============================================================================
+//  possessions
+//============================================================================
+function possessions takes nothing returns nothing
+
+    set sleep_seconds = sleep_seconds - 1
+    call suicide_unit( INFERNAL      )
+    call suicide_unit( FOOTMAN       )
+    call suicide_unit( RIFLEMAN      )
+    call suicide_unit( SORCERESS     )
+    call suicide_unit( PRIEST        )
+    call suicide_unit( MORTAR        )
+    call suicide_unit( ELEMENTAL     )
+    call suicide_unit( KNIGHT        )
+    call suicide_unit( GRYPHON       )
+    call suicide_unit( MILITIA       )
+
+endfunction
+
+//=========================================================================
+// main
+//=========================================================================
+
+function main takes nothing returns nothing
+
+    call CampaignAI(ZIGGURAT_1, null)
+//    call SetCaptainHome(ATTACK_CAPTAIN,-4590,-3200)
+    call SetCaptainHome(ATTACK_CAPTAIN,stage_x1,stage_y1)
+    call SetReplacements( 5, 5, 5)
+    
+    call SetPeonsRepair(true)
+    call SetSlowChopping(true)
+    
+    call SetBuildUnit( 1, ACOLYTE                   )
+    call SetBuildUnit( 1, NECROPOLIS_1              )
+    call SetBuildUnit( 1, UNDEAD_MINE               )
+    call SetBuildUnit( 3, CRYPT                     )
+    call SetBuildUnit( 1, GRAVEYARD                 )
+    call SetBuildUnit( 1, UNDEAD_ALTAR              )
+    call SetBuildUnit( 1, NECROPOLIS_2              )
+    call SetBuildUnit( 2, DAMNED_TEMPLE             )
+    call SetBuildUnit( 2, SLAUGHTERHOUSE            )
+    call SetBuildUnit( 1, SAC_PIT                   )
+    call SetBuildUnit( 3, ZIGGURAT_1                )
+    call SetBuildUnit( 3, ZIGGURAT_2                )
+    call SetBuildUnit( 1, NECROPOLIS_3              )
+    call SetBuildUnit( 1, BONEYARD                  )
+    call SetBuildUnit( 5, ACOLYTE                   )
+    
+    call CampaignDefenderEx( 1,1,1, CURSED_JAINA    )
+    call CampaignDefenderEx( 1,1,1, ABOMINATION     )
+    call CampaignDefenderEx( 1,1,1, BANSHEE         )
+    call CampaignDefenderEx( 1,1,1, MEAT_WAGON      )
+
+    call SetBuildUpgrEx( 1,1,2, UPG_UNHOLY_STR      )
+    call SetBuildUpgrEx( 1,1,2, UPG_UNHOLY_ARMOR    )
+    call SetBuildUpgrEx( 1,1,2, UPG_CR_ATTACK       )
+    call SetBuildUpgrEx( 1,1,2, UPG_CR_ARMOR        )
+    call SetBuildUpgrEx( 0,0,1, UPG_GHOUL_FRENZY    )
+    call SetBuildUpgrEx( 0,0,1, UPG_PLAGUE          )
+
+    call WaitForSignal()
+    
+    // *** WAVE 1 ***
+    call InitAssaultGroup()
+    call CampaignAttackerEx( 5,5,7, GHOUL           )
+    call CampaignAttackerEx( 1,1,2, ABOMINATION     )
+    call SuicideOnPlayer(M3,user)
+	
+	// *** WAVE 2 ***
+    call InitAssaultGroup()
+    call CampaignAttackerEx( 7,7,9, GHOUL           )
+    call CampaignAttackerEx( 0,0,2, ABOMINATION     )
+    call CampaignAttackerEx( 0,0,1, MEAT_WAGON      )
+    call SuicideOnPlayer(M2,user)
+	
+	// *** WAVE 3 ***
+    call InitAssaultGroup()
+    call CampaignAttackerEx( 6,6,0, GHOUL           )
+    call CampaignAttackerEx( 1,1,4, ABOMINATION     )
+    call CampaignAttackerEx( 1,1,2, CURSE_BANSHEE   )
+    call CampaignAttackerEx( 2,2,1, POSESS_BANSHEE  )
+    call CampaignAttackerEx( 0,0,1, AURA_BANSHEE    )
+	call CampaignAttackerEx( 0,0,1, CURSED_JAINA    )
+    call SuicideOnPlayer(M2,user)
+	
+	// *** WAVE 4 ***
+    call InitAssaultGroup()
+    call CampaignAttackerEx( 6,6,8, GARGOYLE        )
+    call SuicideOnPlayer(M2,user)
+	
+	// *** WAVE 5 ***
+    call InitAssaultGroup()
+    call CampaignAttackerEx( 5,5,9, BANSHEE         )
+	call CampaignAttackerEx( 2,2,4, MEAT_WAGON      )
+    call SuicideOnPlayer(M2,user)
+	
+	// *** WAVE 6 BOSS FIGHT WITH JAINA ***
+    call InitAssaultGroup()
+    call CampaignAttackerEx( 2,2,4, ABOMINATION     )
+	// 4 banshees in total/8 banshees in total
+    call CampaignAttackerEx( 1,1,2, AURA_BANSHEE    )
+    call CampaignAttackerEx( 1,1,2, CURSE_BANSHEE   )
+    call CampaignAttackerEx( 2,2,4, POSESS_BANSHEE  )
+	call CampaignAttackerEx( 2,2,5, MEAT_WAGON      )
+    call CampaignAttackerEx( 1,1,1, CURSED_JAINA    )
+    call SuicideOnPlayer(M3,user)
+    
+    
+endfunction

@@ -1,0 +1,153 @@
+globals
+    player UserCamp = Player(0)
+    player SentinelsCamp = Player(2)
+    player JainaCamp = Player(9)
+
+    constant integer DEMON_CRYPT = 'u000'
+    constant integer DEMON_SLAUGHTER = 'u003'
+    constant integer DEMON_TEMPLE = 'u002'
+    constant integer DEMON_BONEYARD = 'u001'
+    constant integer DEMON_ACOLYTE = 'u004'
+
+    constant integer TINY_DRAGON = 'n001'
+    constant integer NORMAL_DRAGON = 'n003'
+    constant integer BIG_DRAGON = 'n004'
+    constant integer NORMAL_EREDAR = 'n301'
+    constant integer BIG_EREDAR = 'n132'
+    constant integer SMALL_HELLBOY = 'n101'
+    constant integer NORMAL_HELLBOY = 'n102'
+    constant integer BIG_HELLBOY = 'n000'
+    constant integer SMALL_DOG = 'n002' // instead of ghouls
+    constant integer SMALL_SUCCUB = 'n122'
+    constant integer NORMAL_SUCCUB = 'n121'
+    constant integer SMALL_VOID = 'n005'
+    constant integer NORMAL_VOID = 'n006'
+    constant integer SMALL_CAR = 'n008'
+    constant integer BIG_CAR = 'n007'
+
+// N means normal. ai wouldn't build renamed doomguards, etc.
+
+    constant integer N_DOOMGUARD = 'nooB'
+    constant integer N_INFERNAL = 'n00A'
+    constant integer N_HELLFOUND = 'n009'
+
+endglobals
+
+//============================================================================
+//  main
+//============================================================================
+function main takes nothing returns nothing
+    debug set do_debug_cheats = true
+
+    call CampaignAI(ZIGGURAT_1,null)
+//	call SetCaptainHome(ATTACK_CAPTAIN,-3649,-5446)
+
+    call SetBuildUnit( 1, NECROPOLIS_1      )
+    call SetBuildUnit( 1, DEMON_ACOLYTE           )
+    call SetBuildUnit( 1, UNDEAD_MINE       )
+    call SetBuildUnit( 1, UNDEAD_ALTAR      )
+    call SetBuildUnit( 1, GRAVEYARD         )
+    call SetBuildUnit( 1, DEMON_CRYPT       )
+    call SetBuildUnit( 5, DEMON_ACOLYTE           )
+    call SetBuildUnit( 4, ZIGGURAT_1        )
+    call SetBuildUnit( 4, ZIGGURAT_2        )
+    call SetBuildUnit( 1, NECROPOLIS_2      )
+    call SetBuildUnit( 1, DEMON_TEMPLE      )
+    call SetBuildUnit( 1, DEMON_SLAUGHTER   )
+    call SetBuildUnit( 1, SAC_PIT           )
+    call SetBuildUnit( 1, DEMON_BONEYARD    )
+    call SetBuildUnit( 1, NECROPOLIS_3      )
+
+    call CampaignDefenderEx( 2,2,2, N_HELLFOUND       )
+    call CampaignDefenderEx( 1,1,1, N_DOOMGUARD       )
+
+    call WaitForSignal()
+
+    set allow_signal_abort = true
+
+    // *** WAVE 1 Time elapsed 0min ***
+    call InitAssaultGroup()
+    call CampaignAttackerEx( 2,2,3, SMALL_DOG    )
+    call CampaignAttackerEx( 0,0,2, N_HELLFOUND    )
+    call SuicideOnPlayer(45,SentinelsCamp)
+    
+    // *** WAVE 2 Time elapsed 4min ***
+    call InitAssaultGroup()
+    call CampaignAttackerEx( 3,3,2, SMALL_DOG    )
+    call CampaignAttackerEx( 0,0,2, N_HELLFOUND    )
+    call SuicideOnPlayer(M4,UserCamp)
+    
+    // *** WAVE 3 Time elapsed 6min***
+    call InitAssaultGroup()
+    call CampaignAttackerEx( 1,1,0, N_DOOMGUARD    )
+    call CampaignAttackerEx( 5,5,7, SMALL_SUCCUB    )
+    call CampaignAttackerEx( 0,0,2, NORMAL_SUCCUB   )
+    call SuicideOnPlayer(M2,JainaCamp)
+    
+    call InitAssaultGroup()
+    call CampaignAttackerEx( 0,0,2, SMALL_DOG    )
+    call CampaignAttackerEx( 2,2,1, SMALL_HELLBOY)
+    call SuicideOnPlayer(M2,SentinelsCamp)
+    
+    // *** WAVE 4 Time elapsed 9min ***
+    call InitAssaultGroup()
+    call CampaignAttackerEx( 1,1,1, INFERNAL     )
+    call CampaignAttackerEx( 0,0,4, SMALL_DOG        )
+    call SuicideOnPlayer(M3,JainaCamp)
+    
+    // *** WAVE 5 Time elapsed 11min ***
+    call InitAssaultGroup()
+    call CampaignAttackerEx( 1,1,1, N_DOOMGUARD    )
+    call CampaignAttackerEx( 0,0,1, INFERNAL     )
+    call SuicideOnPlayer(M2,UserCamp)
+    
+    // *** WAVE 6 Time elapsed 13min ***
+    call InitAssaultGroup()
+    call CampaignAttackerEx( 4,4,3, TINY_DRAGON    )
+    call CampaignAttackerEx( 0,0,2, NORMAL_DRAGON  )
+    call SuicideOnPlayer(M2,SentinelsCamp)
+    
+    // *** WAVE 7 Time elapsed 16min ***
+    call InitAssaultGroup()
+    call CampaignAttackerEx( 1,1,2, N_HELLFOUND    )
+    call CampaignAttackerEx( 1,1,0, INFERNAL      )
+    call CampaignAttackerEx( 0,0,1, N_DOOMGUARD    )
+    call CampaignAttackerEx( 0,0,2, SMALL_DOG        )
+    call SuicideOnPlayer(M3,JainaCamp)
+    
+    // *** WAVE 8 Time elapsed 16min ***
+    call InitAssaultGroup()
+    call CampaignAttackerEx( 1,1,2, N_HELLFOUND    )
+    call CampaignAttackerEx( 1,1,0, INFERNAL      )
+    call CampaignAttackerEx( 1,1,1, N_DOOMGUARD    )
+    call CampaignAttackerEx( 0,0,6, SMALL_DOG        )
+    call SuicideOnPlayer(M2,UserCamp)
+
+    // *** WAVE 9 Time elapsed 18min ***
+    call InitAssaultGroup()
+    call CampaignAttackerEx( 1,1,2, N_HELLFOUND    )
+    call CampaignAttackerEx( 1,1,0, N_INFERNAL      )
+    call CampaignAttackerEx( 1,1,1, N_DOOMGUARD    )
+    call CampaignAttackerEx( 0,0,6, SMALL_DOG        )
+    call SuicideOnPlayer(M2,SentinelsCamp)
+
+    // *** WAVE 9 Time elapsed 20min ***
+    call InitAssaultGroup()
+    call CampaignAttackerEx( 1,1,2, N_HELLFOUND    )
+    call CampaignAttackerEx( 1,1,0, N_INFERNAL      )
+    call CampaignAttackerEx( 1,1,1, N_DOOMGUARD    )
+    call CampaignAttackerEx( 0,0,6, SMALL_DOG        )
+    call SuicideOnPlayer(M2,JainaCamp)
+
+    // *** WAVE 10 Time elapsed 23min ***
+    call InitAssaultGroup()
+    call CampaignAttackerEx( 1,1,2, N_HELLFOUND    )
+    call CampaignAttackerEx( 1,1,0, N_INFERNAL      )
+    call CampaignAttackerEx( 1,1,1, N_DOOMGUARD    )
+    call CampaignAttackerEx( 0,0,6, SMALL_DOG        )
+    call SuicideOnPlayer(M3,UserCamp)
+
+    call ForeverSuicideOnPlayer(M2,SentinelsCamp)
+
+    call SuicideUnits( N_HELLFOUND, N_INFERNAL, SMALL_DOG, N_DOOMGUARD, 0, 0, 0, 0, 0, 0 )
+endfunction

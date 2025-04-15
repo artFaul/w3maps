@@ -1,0 +1,56 @@
+//=========================================================================
+// Kel'Thuzad's Revenge -- Jaina -- AI Script
+//=========================================================================
+
+
+//=========================================================================
+// MAIN
+//=========================================================================
+function main takes nothing returns nothing
+    
+    call CampaignAI(HOUSE, null)
+    call SetReplacements (2,2,1)
+    
+    call SetSlowChopping(false)
+    call SetPeonsRepair(true)
+//    call SetUnitsFlee(true)
+    
+    set campaign_wood_peons = 4
+                                                  
+    call SetBuildUnit( 1, PEASANT            )
+    call SetBuildUnit( 1, TOWN_HALL          )
+    call SetBuildUnit( 2, PEASANT            )
+    call SetBuildUnit( 1, BARRACKS           )
+    call SetBuildUnit( 1, HUMAN_ALTAR        )
+    call SetBuildUnit( 1, LUMBER_MILL        )
+    call SetBuildUnit( 1, BLACKSMITH         )
+    call SetBuildUnit( 1, KEEP               )
+    call SetBuildUnit( 1, SANCTUM            )
+    call SetBuildUnit( 1, WORKSHOP           )
+    call SetBuildUnit( 1, CASTLE             )
+    call SetBuildUnitEx( 2,2,1, BARRACKS     )
+    call SetBuildUnit( 9, PEASANT            )
+    
+    call CampaignDefenderEx( 1,1,1, FOOTMEN		)
+    call CampaignDefenderEx( 1,1,0, KNIGHT		)    
+    call CampaignDefenderEx( 1,1,0, RIFLEMAN	)
+    call CampaignDefenderEx( 1,1,1, PRIEST  	)
+    call CampaignDefenderEx( 1,1,1, SORCERESS  	)
+    call CampaignDefenderEx( 1,1,1, JAINA		)      //works hard on every difficulty!
+    
+    call SetBuildUpgrEx( 2,2,1, UPG_MELEE		)
+	call SetBuildUpgrEx( 2,2,1, UPG_ARMOR		)
+	call SetBuildUpgrEx( 2,2,1, UPG_RANGED		)
+	call SetBuildUpgrEx( 2,2,1, UPG_LEATHER		)
+	call SetBuildUpgrEx( 2,2,0, UPG_MASONRY		)
+	call SetBuildUpgrEx( 2,2,2, UPG_WOOD		)
+//	call SetBuildUpgrEx( 1,1,1, UPG_DEFEND		)
+//	call SetBuildUpgrEx( 1,1,1, UPG_GUN_RANGE	)
+//	call SetBuildUpgrEx( 1,1,1, UPG_BREEDING	)
+//	call SetBuildUpgrEx( 1,1,1, UPG_BOMBS		)
+	call SetBuildUpgrEx( 1,1,0, UPG_HAMMERS		)
+	
+	
+    call SleepForever()
+    
+endfunction
